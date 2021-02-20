@@ -1,0 +1,14 @@
+logging:
+  level:
+    org.springframework: ERROR
+    com.morrisons: DEBUG
+    org.hibernate: ERROR
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %M %msg%n'
+spring:
+  profiles: default
+  cache:
+    type: NONE
+
+buffer_size: 1024
+port: 9000
