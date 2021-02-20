@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import jdk.internal.net.http.common.Log;
+
 import com.sender.app.exception.SenderException;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,11 +29,10 @@ public class SenderServiceImpl implements SenderService {
 	@Value("${port}")
 	private Integer port;
 
-	@Value("#{environment['path_to_read']}")
-	private String path_to_read;
+	@Value("#{environment['FILE_PATH']}")
+	private String FILE_PATH;
 
 	public void process() {
-		// TODO Auto-generated method stub
 		log.info("Sender Service Started");
 		try {
 			SocketChannel socketChannel = CreateChannel();
@@ -47,9 +48,9 @@ public class SenderServiceImpl implements SenderService {
 		// Read a file from disk. Its filesize is 54.3 MB (57,006,053 bytes)
 		// receive the same size 54.3 MB (57,006,053 bytes)
 		try {
-			log.debug("Read file from {}", path_to_read);
-			if (StringUtils.isEmpty(path_to_read) == Boolean.FALSE) {
-				Path path = Paths.get(path_to_read);// "c:\\sample.txt"
+			log.debug("Read file from {}", FILE_PATH);
+			if (StringUtils.isEmpty(FILE_PATH) == Boolean.FALSE) {
+				Path path = Paths.get(FILE_PATH);// "c:\\sample.txt"
 				FileChannel inChannel = FileChannel.open(path);
 
 				ByteBuffer buffer = ByteBuffer.allocate(buffer_size);
@@ -72,7 +73,6 @@ public class SenderServiceImpl implements SenderService {
 			try {
 				socketChannel.close();
 			} catch (IOException ioe) {
-				// TODO Auto-generated catch block
 				throw new SenderException("IOException while Closing socketChannel ", ioe);
 			}
 		}
@@ -84,8 +84,8 @@ public class SenderServiceImpl implements SenderService {
 		try {
 			socketChannel = SocketChannel.open();
 			socketChannel.configureBlocking(true);
-
-			SocketAddress sockAddr = new InetSocketAddress("localhost", port);
+			log.debug("port {} ",port);
+			SocketAddress sockAddr = new InetSocketAddress("127.0.0.1", port);
 			socketChannel.connect(sockAddr);
 			log.info("connection established .. {}", socketChannel.getRemoteAddress());
 
