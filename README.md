@@ -10,3 +10,4 @@
 * Git Clone https://github.com/niteshghosalkar/receiver-application.git
 * Configure Maven
 * Set environment varaible FILE_PATH from where who have to save file.
+* Run task only after receiver is running.
