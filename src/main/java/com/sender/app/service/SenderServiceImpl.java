@@ -60,7 +60,7 @@ public class SenderServiceImpl implements SenderService {
 					buffer.clear();
 				}
 			} else {
-				throw new SenderException("ENV variable path_to_read Not provided");
+				throw new SenderException("ENV variable FILE_PATH Not provided");
 			}
 
 		} catch (IOException ioe) {
@@ -85,7 +85,7 @@ public class SenderServiceImpl implements SenderService {
 			socketChannel = SocketChannel.open();
 			socketChannel.configureBlocking(true);
 			log.debug("port {} ",port);
-			SocketAddress sockAddr = new InetSocketAddress("127.0.0.1", port);
+			SocketAddress sockAddr = new InetSocketAddress("localhost",port);
 			socketChannel.connect(sockAddr);
 			log.info("connection established .. {}", socketChannel.getRemoteAddress());
 
